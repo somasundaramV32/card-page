@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRODUCT CARDS</title>
+<style>
+body {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 19%, rgba(9,9,121,1) 80%, rgba(0,212,255,1) 96%);
+    font-family:'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px;
+    color: #fff;
+}
+
+.productContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.item {
+    flex: 0 0 calc(25% - 20px);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.box {
+    padding: 15px;
+    text-align: center;
+}
+
+.title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #222;
+}
+
+.product {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.product:hover {
+    transform: scale(1.1);
+}
+
+.description {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.cart {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.cart:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    transform: translateY(-5px);
+}
+
+.cartCount {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: #ff4757;
+    clip-path: circle(50%);
+    color: #fff;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: blink 1.5s infinite, rainbow 3s infinite;
+}
+
+.cartCount svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+@media screen and (min-width: 375px) and (max-width: 768px) {
+    .item {
+        flex: 0 0 calc(50% - 20px); 
+    }
+
+    .title {
+        font-size: 1rem;
+    }
+
+    .description {
+        font-size: 0.8rem;
+    }
+
+    .cart {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .item {
+        flex: 0 0 100%; 
+    }
+
+    .title {
+        font-size: 0.9rem;
+    }
+
+    .description {
+        font-size: 0.75rem;
+    }
+
+    .cart {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+}
+</style>
+</head>
+<body>
+    <h1>Product Cards</h1>
+    <div class="cartCount" id="cartCount">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+            <path d="M7 4h-2l-3 10h18l3-10h-16zm13.11 8h-15.11l2.209-8h10.691l2.21 8zm-8.11 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm-6 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+        </svg>
+        <span id="cartCountNumber">0</span>
+    </div>
+    <div class="productContainer" id="productContainer"></div>
+    <footer>Product Cards © 2024</footer>
+    <script>
+        const products = [
+            { title: "Product 1", image: "https://picsum.photos/200/200?random=1", description: "This is Product 1" },
+            { title: "Product 2", image: "https://picsum.photos/200/200?random=2", description: "This is Product 2" },
+            { title: "Product 3", image: "https://picsum.photos/200/200?random=3", description: "This is Product 3" },
+            { title: "Product 4", image: "https://picsum.photos/200/200?random=4", description: "This is Product 4" },
+            { title: "Product 5", image: "https://picsum.photos/200/200?random=5", description: "This is Product 5" },
+            { title: "Product 6", image: "https://picsum.photos/200/200?random=6", description: "This is Product 6" },
+            { title: "Product 7", image: "https://picsum.photos/200/200?random=7", description: "This is Product 7" },
+            { title: "Product 8", image: "https://picsum.photos/200/200?random=8", description: "This is Product 8" }
+        ];
+
+        const productContainer = document.getElementById("productContainer");
+        const cartCountElement = document.getElementById('cartCountNumber');
+
+        let cartCount = 0;
+
+        products.forEach(product => {
+            const items = document.createElement("div");
+            items.className = "item";
+
+            items.innerHTML = `
+                <div class="box">
+                    <p class="title">${product.title}</p>
+                    <img class="product" src="${product.image}" alt="">
+                    <p class="description">${product.description}</p>
+                </div>
+                <p class="cart">Add to Cart</p>
+            `;
+
+            productContainer.appendChild(items);
+        });
+
+        document.querySelectorAll('.cart').forEach(cartButton => {
+            cartButton.addEventListener('click', () => {
+                cartCount++;
+                cartCountElement.textContent = cartCount;
+            });
+        });
+    </script>
+</body>
+</html>
